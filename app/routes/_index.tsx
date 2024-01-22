@@ -1,4 +1,14 @@
 import type { MetaFunction } from "@remix-run/node";
+import FavPackageList from "../Components/FavPackageList";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
+
+import { webStore, webPersistor } from "../store/store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { getFavPackageList } from "~/services/getFavPackageList";
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,35 +17,21 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const loader = async() =>{
+  const packageList:any = await getFavPackageList();
+  return json(packageList); //here call is being made.
+}
+
 export default function Index() {
+  // const packageList:any = useFetcher();     
+  const packageList:any = useLoaderData();
+   
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+
+
+    <div className="bg-slate-200 h-[100vh] w-full px-[100px] py-[100px]">
+      <FavPackageList packageList = {packageList}/>
     </div>
+  
   );
 }
