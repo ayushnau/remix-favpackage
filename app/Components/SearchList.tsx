@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/react";
+import { FormEvent } from "react";
+import { useSubmit } from "@remix-run/react";
 
 interface SearchListProps {
   packageList: any;
+  searchQuery: string;
 }
 import { getPackageListFromApi } from "~/services/getPackageListFromApi";
 
-const SearchList: React.FC<SearchListProps> = ({ packageList }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSetQuery = (e: any) => {
-    setSearchQuery(e.target.value);
+const SearchList: React.FC<SearchListProps> = ({
+  packageList,
+  searchQuery,
+}) => {
+  const submit = useSubmit();
+  const handleSubmit = (e: any) => {
+    // e.preventDefault();
   };
   return (
     <div className="border-2 border-black rounded-xl w-full h-full px-[50px] py-[35px]">
@@ -23,24 +28,40 @@ const SearchList: React.FC<SearchListProps> = ({ packageList }) => {
         />
         <button type="submit">Search</button>
       </form>
-      {/* <form method="post" className="flex items-center gap-3"> */}
-      <div className="border border-xl rounded-xl">
-        {packageList.map((value: any, index: any) => {
-          return (
-            <div key={index}>
-              <input
-                type="radio"
-                // checked={searchQuery === value.package.name}
-                // onChange={() => handleSetQuery(value.package.name)}
-              />
-              <button className="ml-2" type="submit">
-                {value.package.name}
-              </button>
-            </div>
-          );
-        })}
-      </div>
-      {/* </form> */}
+
+      <form
+        action="/add-favorite-package"
+        method="post"
+        className="flex items-center gap-3 w-full flex-col"
+        onSubmit={(event: any) => handleSubmit(event)}
+      >
+        <div className="border border-xl rounded-xl w-full h-[60vh] overflow-scroll">
+          {packageList?.map((value: any, index: any) => {
+            return (
+              <div className="flex items-center " key={index}>
+                <input
+                  name={value.package.name}
+                  type="radio"
+                  id={value.package.name}
+                />
+                <div className="ml-2">{value.package.name}</div>
+              </div>
+            );
+          })}
+        </div>
+
+        <input
+          className="w-full h-[10vh] border border-black rounded-xl"
+          name="selectedPackageDescription"
+          type="text"
+        />
+        <button
+          className="px-4 py-2 border border-black rounded-xl w-full"
+          type="submit"
+        >
+          Enter
+        </button>
+      </form>
     </div>
   );
 };

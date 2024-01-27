@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { createRequestHandler } from "@remix-run/express";
 import { broadcastDevReady } from "@remix-run/node";
 import express from "express";

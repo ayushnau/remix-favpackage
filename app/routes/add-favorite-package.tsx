@@ -6,45 +6,35 @@ import { json } from "@remix-run/react";
 import { getPackageListFromApi } from "~/services/getPackageListFromApi";
 import PackageList from "~/Components/FavPackageList";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-
+import { redirect } from "@remix-run/node";
 import { userPrefs } from "~/cookie.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await userPrefs.parse(cookieHeader)) || {};
 
-  console.log(cookie , cookieHeader , "cookies in header")
   const response = await getPackageListFromApi(cookie.searchQuery);
   const packageListData = await response.json();
-  const packageList = packageListData.results;
+  let packageList = packageListData.results;
+  // const packageList: any[] = [];
   const searchQuery = cookie.searchQuery;
-  return json({ packageList, searchQuery }, {
-    headers: {
-      "Set-Cookie": await userPrefs.serialize(cookie),
-    },
-  });
-
+  return json(
+    { packageList, searchQuery },
+    {
+      headers: {
+        "Set-Cookie": await userPrefs.serialize(cookie),
+      },
+    }
+  );
 }
 
 const Package = () => {
   const fetcher = useFetcher();
   let { searchQuery, packageList } = useLoaderData<typeof loader>();
 
-  console.log({searchQuery} , "in componnent")
-
   return (
     <div className=" rounded-xl w-full h-[100vh] px-[50px] py-[35px]">
-      
-      <form method="post" className="flex items-center gap-3">
-        <input
-          name="searchQuery"
-          className="border border-black px-4 py-2 rounded-xl w-full font-extrabold"
-          placeholder="Search the package here..."
-        />
-        <button type="submit">Search</button>
-      </form>
-      {/* <SearchList packageList={packageList} /> */}
-        {searchQuery}     
+      <SearchList searchQuery={searchQuery} packageList={packageList} />
     </div>
   );
 };
@@ -54,12 +44,10 @@ export async function action({ request }: ActionFunctionArgs) {
   const cookie = (await userPrefs.parse(cookieHeader)) || {};
   const formData = await request.formData();
 
-
-    console.log(cookie, formData)
+  console.log(formData);
   const searchQuery = formData.get("searchQuery");
   cookie.searchQuery = searchQuery;
-  console.log(await userPrefs.serialize(cookie),"hi this the serailize in action")
-  return json(searchQuery, {
+  return redirect("/add-favorite-package", {
     headers: {
       "Set-Cookie": await userPrefs.serialize(cookie),
     },
