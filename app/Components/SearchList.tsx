@@ -20,14 +20,12 @@ const SearchList: React.FC<SearchListProps> = ({ packageList }) => {
           name="searchQuery"
           className="border border-black px-4 py-2 rounded-xl w-full font-extrabold"
           placeholder="Search the package here..."
-          value={"node"}
         />
         <button type="submit">Search</button>
       </form>
       {/* <form method="post" className="flex items-center gap-3"> */}
       <div className="border border-xl rounded-xl">
         {packageList.map((value: any, index: any) => {
-          console.log(value);
           return (
             <div key={index}>
               <input
