@@ -12,19 +12,23 @@
     "build:css": "yarn run generate:css -- --env production",
     "dev:css": "yarn run generate:css --watch",
     "generate:css": "npx postcss ./app/styles/tailwind --dir ./app/.css --base ./app/styles",
-    "db:create-migration": "npx knex migrate:make"
+    "db:create:migration": "npx knex migrate:make",
+    "db:migrate:latest": "npx knex migrate:latest"
   },
   "dependencies": {
     "@remix-run/css-bundle": "^2.5.0",
     "@remix-run/node": "^2.5.0",
     "@remix-run/react": "^2.5.0",
     "@remix-run/serve": "^2.5.0",
+    "@types/uuid": "^9.0.8",
     "isbot": "^4.1.0",
     "knex": "^3.1.0",
     "node-fetch": "^3.3.2",
+    "pg": "^8.11.3",
     "postcss": "^8.4.33",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.9.5",

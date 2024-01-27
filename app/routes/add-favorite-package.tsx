@@ -8,6 +8,7 @@ import PackageList from "~/Components/FavPackageList";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { userPrefs } from "~/cookie.server";
+import { addPackage } from "~/services/addPackage";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -17,6 +18,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const packageListData = await response.json();
   let packageList = packageListData.results;
   // const packageList: any[] = [];
+  // await addPackage({
+  //   packageName: "pacakagename",
+  //   packageDescription: "description",
+  // });
+
   const searchQuery = cookie.searchQuery;
   return json(
     { packageList, searchQuery },
@@ -45,8 +51,21 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
   console.log(formData);
+  console.log(formData.get("name"));
+
   const searchQuery = formData.get("searchQuery");
-  cookie.searchQuery = searchQuery;
+  if (searchQuery) cookie.searchQuery = searchQuery;
+  else {
+    //insert to db
+    // const packageName = formData.get("packageName");
+    const entries = Array.from(formData.entries()).map((value) => value);
+    const packageName = entries[0][0];
+
+    const packageDescription = formData.get("packageDescription");
+    console.log(packageName, packageDescription);
+    const response = await addPackage({ packageName, packageDescription });
+    console.log({ response });
+  }
   return redirect("/add-favorite-package", {
     headers: {
       "Set-Cookie": await userPrefs.serialize(cookie),

@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/react";
 import { FormEvent } from "react";
 import { useSubmit } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 
 interface SearchListProps {
   packageList: any;
@@ -16,7 +17,14 @@ const SearchList: React.FC<SearchListProps> = ({
 }) => {
   const submit = useSubmit();
   const handleSubmit = (e: any) => {
-    // e.preventDefault();
+    console.log(e.target);
+    // submit(
+    //   {[
+    //     { name: "packageName", value: "name" },
+    //     { name: "packageDescription", value: "description" },
+    //   ]},
+    //   { method: "POST" }
+    // );
   };
   return (
     <div className="border-2 border-black rounded-xl w-full h-full px-[50px] py-[35px]">
@@ -29,11 +37,14 @@ const SearchList: React.FC<SearchListProps> = ({
         <button type="submit">Search</button>
       </form>
 
-      <form
+      <Form
         action="/add-favorite-package"
         method="post"
         className="flex items-center gap-3 w-full flex-col"
-        onSubmit={(event: any) => handleSubmit(event)}
+        onSubmit={(event) => {
+          console.log(event.currentTarget);
+          submit(event.currentTarget);
+        }}
       >
         <div className="border border-xl rounded-xl w-full h-[60vh] overflow-scroll">
           {packageList?.map((value: any, index: any) => {
@@ -52,7 +63,7 @@ const SearchList: React.FC<SearchListProps> = ({
 
         <input
           className="w-full h-[10vh] border border-black rounded-xl"
-          name="selectedPackageDescription"
+          name="packageDescription"
           type="text"
         />
         <button
@@ -61,7 +72,7 @@ const SearchList: React.FC<SearchListProps> = ({
         >
           Enter
         </button>
-      </form>
+      </Form>
     </div>
   );
 };

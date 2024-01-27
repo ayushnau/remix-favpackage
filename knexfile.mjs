@@ -1,14 +1,12 @@
-require("./config");
-
-module.exports = {
+export default {
   client: "pg",
   debug: false,
   connection: {
-    host: process.env.DB_HOST,
+    host: process.env.DB_HOST || "localhost",
     port: process.env.DB_PORT || 5432,
     user: process.env.DB_USERNAME || "postgres",
     password: process.env.DB_PASSWORD || "1234",
-    database: process.env.DB_NAME || "favpackage",
+    database: process.env.DB_NAME || "favorite_package",
   },
   migrations: {
     directory: "./database/migrations",
