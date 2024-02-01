@@ -41,12 +41,13 @@ const SearchList: React.FC<SearchListProps> = ({
         action="/add-favorite-package"
         method="post"
         className="flex items-center gap-3 w-full flex-col"
+        encType="multipart/form-data"
         onSubmit={(event) => {
           console.log(event.currentTarget);
           submit(event.currentTarget);
         }}
       >
-        <div className="border border-xl rounded-xl w-full h-[60vh] overflow-scroll">
+        <div className="border border-xl rounded-xl w-full h-[55vh] overflow-scroll">
           {packageList?.map((value: any, index: any) => {
             return (
               <div className="flex items-center " key={index}>
@@ -66,6 +67,7 @@ const SearchList: React.FC<SearchListProps> = ({
           name="packageDescription"
           type="text"
         />
+        <input type="file" name="fav_image" id="" />
         <button
           className="px-4 py-2 border border-black rounded-xl w-full"
           type="submit"

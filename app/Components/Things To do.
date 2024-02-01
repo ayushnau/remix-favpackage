@@ -1,0 +1,11 @@
+Funcionality wise.
+
+1. i need to upload the image based on id.
+2. i think i need to rename the image first for that.
+3. Use Search Params Instead of cookie.
+
+
+Improvement Wise
+
+1. Add debouncing feature.
+2. Imporve the Ui slightly.
