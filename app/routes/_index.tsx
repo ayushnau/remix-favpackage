@@ -17,21 +17,18 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const loader = async() =>{
-  const packageList:any = await getFavPackageList();
+export const loader = async () => {
+  const packageList: any = await getFavPackageList();
   return json(packageList); //here call is being made.
-}
+};
 
 export default function Index() {
-  // const packageList:any = useFetcher();     
-  const packageList:any = useLoaderData();
-   
+  // const packageList:any = useFetcher();
+  const packageList: any = useLoaderData();
+
   return (
-
-
     <div className="bg-slate-200 h-[100vh] w-full px-[100px] py-[100px]">
-      <FavPackageList packageList = {packageList}/>
+      <FavPackageList packageList={packageList} />
     </div>
-  
   );
 }
