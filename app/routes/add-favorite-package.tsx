@@ -13,9 +13,9 @@ import { v4 as uuid4 } from "uuid";
 import { useSubmit } from "@remix-run/react";
 import { Form } from "@remix-run/react";
 import {
-  unstable_composeUploadHandlers ,
-  unstable_createFileUploadHandler ,
-  unstable_createMemoryUploadHandler ,
+  unstable_composeUploadHandlers,
+  unstable_createFileUploadHandler,
+  unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { UploadHandler } from "@remix-run/node";
@@ -51,8 +51,8 @@ const Package = () => {
   let { searchQuery, packageList } = useLoaderData<typeof loader>();
 
   return (
-    
     <div className=" rounded-xl w-full h-[100vh] px-[50px] py-[35px]">
+      <input type="file" />
       <Form
         action="/add-favorite-package"
         method="post"
@@ -79,19 +79,18 @@ export async function action({ request }: ActionFunctionArgs) {
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
       maxPartSize: 5_000_000,
-      file: ({ filename }:any) => filename,
+      file: ({ filename }: any) => filename,
     }),
     // parse everything else into memory
     unstable_createMemoryUploadHandler()
   );
-  console.log("hi this is after upload handler")
+
+  console.log("hi this is after upload handler");
   let formData = await unstable_parseMultipartFormData(request, uploadHandler);
   const fileSrc = formData.get("fav_image");
-  console.log({fileSrc});
-  
-  console.log("hi this is after upload handler")
+  console.log({ fileSrc });
 
-
+  console.log("hi this is after upload handler");
 
   // const searchQuery = formData.get("searchQuery");
   // if (searchQuery) cookie.searchQuery = searchQuery;
@@ -100,7 +99,6 @@ export async function action({ request }: ActionFunctionArgs) {
   //   const entries = Array.from(formData.entries()).map((value) => value);
   //   const packageName = entries[0][0];
 
-   
   //   const fileSrc = formData.get("fav_image");
 
   //   const packageDescription = formData.get("packageDescription");
@@ -112,11 +110,14 @@ export async function action({ request }: ActionFunctionArgs) {
   //   });
   //   console.log({ response });
   // }
-  // return redirect("/add-favorite-package", {
-  //   headers: {
-  //     "Set-Cookie": await userPrefs.serialize(cookie),
-  //   },
-  // });
+  return redirect(
+    "/add-favorite-package"
+    // , {
+    // headers: {
+    //   "Set-Cookie": await userPrefs.serialize(cookie),
+    // },
+    // }
+  );
 }
 
 export default Package;
