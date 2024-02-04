@@ -2,12 +2,12 @@ import React from "react";
 import EyeIcon from "./icons/EyeIcon";
 import EyeIconOpened from "./icons/EyeIconOpened";
 import { useNavigate } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 interface PackageListProps {
-  packageList : any[];
+  packageList: any[];
 }
-const PackageList:React.FC<PackageListProps> = ({packageList}) => {
-  console.log({packageList})
+const PackageList: React.FC<PackageListProps> = ({ packageList }) => {
   const navigate = useNavigate();
 
   return (
@@ -27,13 +27,18 @@ const PackageList:React.FC<PackageListProps> = ({packageList}) => {
         <div>
           {packageList?.map((currentFav: any) => {
             return (
-              <div className="flex">
+              <div id={currentFav.uuid} className="flex">
                 <div className="flex-1">{currentFav.name}</div>
+                {/* <Link to={`${currentFav.uuid}`}> */}
                 <div className="flex-1">
-                  <div className="w-5 h-5">
+                  <div
+                    onClick={() => navigate(`${currentFav.uuid}`)}
+                    className="w-5 h-5"
+                  >
                     <EyeIconOpened />
                   </div>
                 </div>
+                {/* </Link> */}
               </div>
             );
           })}

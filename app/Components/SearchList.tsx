@@ -9,7 +9,7 @@ interface SearchListProps {
   packageList: any;
   searchQuery: string;
 }
-import { getPackageListFromApi } from "~/services/getPackageListFromApi";
+import { getPackageListFromApi } from "~/services/Search/getPackageListFromApi";
 
 const SearchList: React.FC<SearchListProps> = ({
   packageList,
@@ -17,7 +17,6 @@ const SearchList: React.FC<SearchListProps> = ({
 }) => {
   const submit = useSubmit();
   const handleSubmit = (e: any) => {
-    console.log(e.target);
     // submit(
     //   {[
     //     { name: "packageName", value: "name" },
@@ -27,7 +26,7 @@ const SearchList: React.FC<SearchListProps> = ({
     // );
   };
   return (
-    <div className="border-2 border-black rounded-xl w-full h-full px-[50px] py-[35px]">
+    <div className="border-2 border-black rounded-xl w-full h-full overflow-auto px-[50px] py-[10px]">
       <form method="post" className="flex items-center gap-3">
         <input
           name="searchQuery"
@@ -38,7 +37,7 @@ const SearchList: React.FC<SearchListProps> = ({
       </form>
 
       <Form
-        action="/add-favorite-package"
+        action="/handleFormData"
         method="post"
         className="flex items-center gap-3 w-full flex-col"
         encType="multipart/form-data"
