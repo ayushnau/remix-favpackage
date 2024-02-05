@@ -22,7 +22,7 @@ const ViewFavouritePackage = () => {
         onClick={() => {
           navigate("/favourite");
         }}
-        className="absolute top-0 right-10 border border-black rounded-md px-3 py-1"
+        className="absolute top-0 right-10  mb-4 w-fit text-end border ml-auto bg-blue-600 text-cyan-50  rounded-md  border-blue-600 px-3 py-1 cursor-pointer"
       >
         Favourite
       </div>

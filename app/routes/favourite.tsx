@@ -1,15 +1,12 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import FavPackageList from "../Components/FavPackageList";
 import { json } from "@remix-run/node";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
 
-import { webStore, webPersistor } from "../store/store";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-
 import { getFavPackageList } from "~/services/packagesCrud/getFavPackages";
+import deletePackage from "~/services/packagesCrud/deletePackage";
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,11 +22,19 @@ export const loader = async () => {
 
 export default function Favourites() {
   const params = useParams();
+  console.log({ params });
   const packageList: any = useLoaderData();
 
   return (
-    <div className="bg-slate-200 h-[100vh] w-full px-[100px] py-[100px] relative">
+    <div className=" h-[100vh] w-full px-[100px] py-[100px] relative">
       {params.slug ? <Outlet /> : <FavPackageList packageList={packageList} />}
     </div>
   );
 }
+
+export const action = async ({ request, params }: ActionFunctionArgs) => {
+  const formdata = await request.formData();
+  const uuid = formdata.get("uuid");
+  const response = await deletePackage({ uuid });
+  return json({ success: response });
+};

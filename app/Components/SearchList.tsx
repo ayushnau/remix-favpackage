@@ -16,21 +16,17 @@ const SearchList: React.FC<SearchListProps> = ({
   searchQuery,
 }) => {
   const submit = useSubmit();
-  const handleSubmit = (e: any) => {
-    // submit(
-    //   {[
-    //     { name: "packageName", value: "name" },
-    //     { name: "packageDescription", value: "description" },
-    //   ]},
-    //   { method: "POST" }
-    // );
-  };
+
   return (
-    <div className="border-2 border-black rounded-xl w-full h-full overflow-auto px-[50px] py-[10px]">
-      <form method="post" className="flex items-center gap-3">
+    <div className="border-2 border-black rounded-md w-full h-full overflow-auto px-[50px] py-[40px]">
+      <form method="post" className="flex items-center gap-3 relative pt-6">
+        <label className="absolute -top-1 left-1" htmlFor="searchQuery">
+          Search Package...
+        </label>
         <input
+          id="searchQuery"
           name="searchQuery"
-          className="border border-black px-4 py-2 rounded-xl w-full font-extrabold"
+          className="border border-black px-4 py-2 rounded-md w-full font-extrabold"
           placeholder="Search the package here..."
         />
         <button type="submit">Search</button>
@@ -39,14 +35,14 @@ const SearchList: React.FC<SearchListProps> = ({
       <Form
         action="/handleFormData"
         method="post"
-        className="flex items-center gap-3 w-full flex-col"
+        className="flex items-center gap-3 w-full flex-col relative mt-5"
         encType="multipart/form-data"
         onSubmit={(event) => {
-          console.log(event.currentTarget);
           submit(event.currentTarget);
         }}
       >
-        <div className="border border-xl rounded-xl w-full h-[55vh] overflow-scroll">
+        <div className=" absolute left-0  -top-2 mb-3">Result</div>
+        <div className="border border-xl w-full h-[30vh] overflow-scroll relative  rounded-md px-4 py-3 mt-5">
           {packageList?.map((value: any, index: any) => {
             return (
               <div className="flex items-center " key={index}>
@@ -61,14 +57,16 @@ const SearchList: React.FC<SearchListProps> = ({
           })}
         </div>
 
-        <input
-          className="w-full h-[10vh] border border-black rounded-xl"
-          name="packageDescription"
-          type="text"
-        />
+        <div className="relative w-full mt-5">
+          <div className=" absolute left-0  -top-6 mb-3">Description</div>
+          <textarea
+            className="w-full h-[10vh] border border-black rounded-md px-2 py-2"
+            name="packageDescription"
+          />
+        </div>
         <input type="file" name="fav_image" id="" />
         <button
-          className="px-4 py-2 border border-black rounded-xl w-full"
+          className="px-4 py-2 border ml-auto bg-blue-600 text-cyan-50  rounded-md  border-blue-600"
           type="submit"
         >
           Enter

@@ -4,9 +4,14 @@ Funcionality wise.
 1. just add the view edit for the images.
 2. Cant add same name twice.
 4. check for the validation. 
-5. 
 
 Improvement Wise
 
 1. Add debouncing feature.
-2. Imporve the Ui slightly.
+
+complete list
+
+2. Add loading feature. 
+3. Add solution for the double check.
+4. Add delete from database and aws. 
+5. Add check for the not adding two same values.

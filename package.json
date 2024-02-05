@@ -16,6 +16,7 @@
     "db:migrate:latest": "npx knex migrate:latest"
   },
   "dependencies": {
+    "@locoworks/reusejs-react-modal": "^0.2.3",
     "@remix-run/css-bundle": "^2.5.0",
     "@remix-run/node": "^2.5.0",
     "@remix-run/react": "^2.5.0",

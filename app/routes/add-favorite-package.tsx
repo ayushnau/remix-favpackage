@@ -51,10 +51,10 @@ const Package = () => {
   const navigate = useNavigate();
 
   return (
-    <div className=" rounded-xl w-full h-[100vh] px-[50px] py-[70px] relative">
+    <div className=" rounded-md w-full h-[100vh] px-[50px] py-[70px] relative flex flex-col ">
       <button
         onClick={() => navigate("/favourite")}
-        className="absolute top-5 right-12 border border-black rounded-md px-3 py-1"
+        className="px-4 py-2 mb-4 w-fit text-end border ml-auto bg-blue-600 text-cyan-50  rounded-md  border-blue-600"
       >
         Favourites
       </button>
