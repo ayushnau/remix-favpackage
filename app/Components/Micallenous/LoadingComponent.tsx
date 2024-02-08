@@ -1,14 +1,20 @@
-/* eslint-disable react/display-name */
-import React from "react";
-import { HeadlessModal } from "@locoworks/reusejs-react-modal";
+import React, { useEffect } from "react";
+import ShowLoadingModal from "../Modals/ShowLoadingModal";
 
-const Modal = (props: any) => {
+const LoadingComponent = (props: any) => {
+  //   useEffect(() => {
+  //     console.log("browser");
+  //     const callModal = async () => {
+  //       await ShowLoadingModal(props.setIsLoading, props.isLoading);
+  //     };
+  //     callModal();
+  //   }, []);
   return (
     <div
       id="popup-modal"
-      className="  z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      className=" fixed inset-0 backdrop-blur z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex "
     >
-      <div className="relative p-4 w-full max-w-md max-h-full">
+      <div className="relative p-4 w-full max-w-md max-h-full flex justify-center">
         <button
           disabled
           type="button"
@@ -38,35 +44,4 @@ const Modal = (props: any) => {
   );
 };
 
-interface ShowLoadingModalProps {
-  setIsLoading: () => any;
-  isLoading: boolean;
-}
-
-const ShowLoadingModal = async ({
-  setIsLoading,
-  isLoading,
-}: ShowLoadingModalProps) => {
-  const result = await HeadlessModal({
-    component: Modal,
-    setIsLoading,
-    isLoading,
-    backdropClasses: "bg-black bg-opacity-50 w-full h-full",
-    modalWrapperClasses: "self-end sm:self-auto w-full sm:w-fit ",
-
-    disableOutsideClick: true,
-    animations: {
-      modal: {
-        initial: { opacity: 0, y: 400 },
-        animate: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: 400 },
-        transition: { ease: "easeIn" },
-      },
-    },
-  });
-
-  return result;
-  console.log(result);
-};
-
-export default ShowLoadingModal;
+export default LoadingComponent;

@@ -7,6 +7,7 @@ import { Outlet } from "@remix-run/react";
 
 import { getFavPackageList } from "~/services/packagesCrud/getFavPackages";
 import deletePackage from "~/services/packagesCrud/deletePackage";
+import updatePackage from "~/services/packagesCrud/updatePackage";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,7 +23,6 @@ export const loader = async () => {
 
 export default function Favourites() {
   const params = useParams();
-  console.log({ params });
   const packageList: any = useLoaderData();
 
   return (
@@ -33,8 +33,26 @@ export default function Favourites() {
 }
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
+  console.log(request);
   const formdata = await request.formData();
+  console.log(formdata);
+  const currentCase = formdata.get("currentCase");
   const uuid = formdata.get("uuid");
-  const response = await deletePackage({ uuid });
-  return json({ success: response });
+  if (currentCase === "delete") {
+    try {
+      const response = await deletePackage({ uuid });
+      return json({ success: 1 });
+    } catch (e) {
+      json({ success: 0 });
+    }
+  } else {
+    try {
+      const description = formdata.get("description");
+      console.log(description);
+      const response = await updatePackage({ uuid, description });
+      return json({ success: 1 });
+    } catch (e) {
+      json({ success: 0 });
+    }
+  }
 };

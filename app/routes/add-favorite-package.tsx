@@ -25,6 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const cookie = (await userPrefs.parse(cookieHeader)) || {};
 
   const response = await getPackageListFromApi(cookie.searchQuery);
+  console.log(response);
   const packageListData = await response.json();
   let packageList = packageListData.results;
 

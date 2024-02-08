@@ -1,11 +1,12 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import React from "react";
+import React, { useEffect } from "react";
 import { json } from "@remix-run/node";
-import { useLoaderData, useSubmit } from "@remix-run/react";
+import { useActionData, useLoaderData, useSubmit } from "@remix-run/react";
 import getPackageById from "~/services/packagesCrud/getPackageById";
 import { Form } from "@remix-run/react";
 import { useNavigate } from "@remix-run/react";
 import updatePackage from "~/services/packagesCrud/updatePackage";
+import ShowConfirmUpdateModal from "~/Components/Modals/ShowConfirmUpdateModal";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   console.log(params);
@@ -19,6 +20,13 @@ const EditFavouritePackage = () => {
   const { name, id }: any = useLoaderData();
   const navigate = useNavigate();
   const submit = useSubmit();
+  const state = useActionData();
+
+  useEffect(() => {
+    async () => {
+      await ShowConfirmUpdateModal({});
+    };
+  }, [state]);
   return (
     <div className="relative">
       <button
@@ -40,7 +48,6 @@ const EditFavouritePackage = () => {
           name="description"
           className="h-[200px] px-5 py-5 rounded-md border border-black"
         />
-        <input name={id} id={id} className="hidden" type="text" />
         <input type="file" name="file" id="" />
         <button
           type="submit"
@@ -54,16 +61,19 @@ const EditFavouritePackage = () => {
 };
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
-  // const formdata = await request.formData();
-  // const slug = params.slug;
-  // const description = formdata.get("description");
-  // console.log(description);
-  // console.log(slug);
-  // const response = await updatePackage({
-  //   uuid: slug,
-  //   description: description,
-  // });
-  // console.log(response);
+  const uuid = params.slug;
+  const formdata = await request.formData();
+
+  console.log(formdata);
+  console.log(uuid);
+  try {
+    const description = formdata.get("description");
+    console.log(description);
+    const response = await updatePackage({ uuid, description });
+    return json({ success: 1 });
+  } catch (e) {
+    json({ success: 0 });
+  }
   return json({ success: 1 });
 };
 

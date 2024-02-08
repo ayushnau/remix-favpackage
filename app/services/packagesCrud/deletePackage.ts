@@ -5,6 +5,8 @@ const knexInstance = knex(knexfile);
 
 export default async ({ uuid }: any) => {
   console.log(uuid);
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const data = await knexInstance("favourites_packages")
     .where({ uuid })
     .delete();
